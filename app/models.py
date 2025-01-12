@@ -46,6 +46,7 @@ class MenuItem(db.Model):
     # SQLAlchemy creates the relathionship using the back_populates value.
     menu = db.relationship("Menu", back_populates="items")
     type = db.relationship("MenuItemType", back_populates="items")
+    details = db.relationship("OrderDetails", back_populates="item")
 
 class MenuItemType(db.Model):
     __tablename__="menu_item_types"
@@ -74,6 +75,7 @@ class Order(db.Model):
 
     employee= db.relationship("Employee", back_populates="orders")
     table=db.relationship("Table", back_populates="orders")
+    details=db.relationship("OrderDetails", back_populates="order")
 
 class OrderDetails(db.Model):
     __tablename__="order_details"
@@ -82,4 +84,5 @@ class OrderDetails(db.Model):
     order_id=db.Column(db.Integer,db.ForeignKey("orders.id"), nullable=False)
     menu_item_id=db.Column(db.Integer, db.ForeignKey("menu_items.id"), nullable=False)
 
-    
+    order = db.relationship("Order", back_populates="details")
+    item = db.relationship("MenuItem", back_populates="details")
