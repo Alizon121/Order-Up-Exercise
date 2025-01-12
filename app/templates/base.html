@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     {% if title %}
@@ -7,6 +8,12 @@
     {% endif %}
   </head>
   <body>
-    {% block content %}{% endblock %}
+    {% if not current_user.is_anonymous %}
+    <form method="POST" action="{{ url_for('session.logout') }}">
+      <button>Logout</button>
+    </form>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
   </body>
 </html>
